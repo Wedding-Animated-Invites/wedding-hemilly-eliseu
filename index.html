@@ -3,9 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Wedding Invitation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f3f3f3;
+            background-image: url('your-background-image.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        #image-container, #video-container, #embed-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+        #image-container img {
+            cursor: pointer;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        #image-container img:hover {
+            transform: scale(1.05);
+        }
+        #video-container video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        #embed-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .fade-in {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
 </head>
 <body>
-    Content
+    <audio id="background-audio" src="https://marceloavf.github.io/wedding-hemilly-eliseu/background-audio.mp3" type="audio/mp3" loop autoplay></audio>
+
+    <div id="image-container" class="fade-in">
+        <img src="https://marceloavf.github.io/wedding-hemilly-eliseu/envelope-closed.png" alt="Click to start video" onclick="startVideo()">
+    </div>
+
+    <div id="video-container">
+        <video id="invitation-video" controls autoplay>
+            <source src="invitation-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div id="embed-container">
+        <iframe src="https://your-canva-embed-url.com"></iframe>
+    </div>
+
+    <script>
+        function startVideo() {
+            var imageContainer = document.getElementById('image-container');
+            var videoContainer = document.getElementById('video-container');
+            var embedContainer = document.getElementById('embed-container');
+            var backgroundAudio = document.getElementById('background-audio');
+            var video = document.getElementById('invitation-video');
+
+            // Fade out image container
+            imageContainer.classList.remove('fade-in');
+            imageContainer.style.opacity = '0';
+            imageContainer.style.visibility = 'hidden';
+
+            // Fade in video container
+            setTimeout(function() {
+                videoContainer.classList.add('fade-in');
+            }, 1000); // Wait for the fade-out animation to complete
+
+            backgroundAudio.pause();
+
+            video.onended = function() {
+                // Fade out video container
+                videoContainer.classList.remove('fade-in');
+                videoContainer.style.opacity = '0';
+                videoContainer.style.visibility = 'hidden';
+
+                // Fade in embed container
+                setTimeout(function() {
+                    embedContainer.classList.add('fade-in');
+                }, 1000); // Wait for the fade-out animation to complete
+            };
+        }
+
+        // Initial fade-in animation
+        window.onload = function() {
+            document.getElementById('image-container').classList.add('fade-in');
+        };
+    </script>
 </body>
 </html>
