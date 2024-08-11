@@ -7,27 +7,35 @@
     <style>
         body {
             margin: 0;
+            padding: 0;
             height: 100vh;
-            background-color: #dee1d4;
+            width: 100vw;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #dee1d4;
+        }
+
+        #video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place video behind the image */
             overflow: hidden;
         }
 
-        .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        #video-container video {
             width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 1s ease, visibility 1s ease;
+            object-fit: cover; /* Ensures video covers the entire background */
+        }
+
+        #image-container {
+            position: relative;
+            z-index: 1; /* Place image above the video */
         }
 
         #image-container img {
@@ -36,80 +44,69 @@
             max-height: 100%; 
             height: auto;
             width: auto; 
-            border-radius: 10px;
             transition: transform 0.3s ease;
         }
 
-        #video-container video {
-            max-width: 100%;
-            max-height: 100vh;
-            border-radius: 10px;
+        #embed-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 2; /* Place embed content above everything else */
         }
 
         #embed-container iframe {
             width: 100%;
             height: 100%;
             border: none;
-            border-radius: 10px;
         }
 
         .fade-in {
+            display: block;
             opacity: 1;
             visibility: visible;
+            transition: opacity 1s ease, visibility 1s ease;
         }
     </style>
 </head>
 <body>
     <audio id="background-audio" src="https://marceloavf.github.io/wedding-hemilly-eliseu/background-audio.mp3" type="audio/mp3" loop autoplay></audio>
     
-    <div id="image-container" class="container fade-in">
-        <img src="https://marceloavf.github.io/wedding-hemilly-eliseu/envelope-closed.png" alt="Click to start video" onclick="startVideo()">
-    </div>
-    
-    <div id="video-container" class="container">
-        <video id="invitation-video" autoplay preload="auto">
+    <div id="video-container">
+        <video id="invitation-video" preload="auto">
             <source src="invitation-video.mp4" type="video/mp4">
         </video>
     </div>
     
-    <div id="embed-container" class="container">
+    <div id="image-container">
+        <img src="https://marceloavf.github.io/wedding-hemilly-eliseu/envelope-closed.png" alt="Click to start video" onclick="startVideo()">
+    </div>
+    
+    <div id="embed-container">
         <iframe src="https://your-canva-embed-url.com"></iframe>
     </div>
     
     <script>
         function startVideo() {
             var imageContainer = document.getElementById('image-container');
-            var videoContainer = document.getElementById('video-container');
             var embedContainer = document.getElementById('embed-container');
             var backgroundAudio = document.getElementById('background-audio');
             var video = document.getElementById('invitation-video');
             
             // Fade out image container
-            imageContainer.classList.remove('fade-in');
-            
-            // Fade in video container
-            setTimeout(function() {
-                videoContainer.classList.add('fade-in');
-            }, 1000); // Wait for the fade-out animation to complete
+            imageContainer.style.display = 'none';
             
             // Play the background audio
             backgroundAudio.play(); // Ensure this is called after a user interaction
-            
+
+            // Handle end of video
             video.onended = function() {
-                // Fade out video container
-                videoContainer.classList.remove('fade-in');
-                
-                // Fade in embed container
-                setTimeout(function() {
-                    embedContainer.classList.add('fade-in');
-                }, 1000); // Wait for the fade-out animation to complete
+                // Show embed container
+                embedContainer.classList.add('fade-in');
             };
         }
-        
-        // Initial fade-in animation
-        window.onload = function() {
-            document.getElementById('image-container').classList.add('fade-in');
-        };
     </script>
 </body>
 </html>
