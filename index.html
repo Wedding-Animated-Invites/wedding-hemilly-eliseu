@@ -36,14 +36,16 @@
         #image-container {
             position: relative;
             z-index: 1; /* Place image above the video */
+            opacity: 1;
+            transition: opacity 1s ease;
         }
 
         #image-container img {
             cursor: pointer;
-            max-width: 100%;  
-            max-height: 100%; 
+            max-width: 100%;
+            max-height: 100%;
             height: auto;
-            width: auto; 
+            width: auto;
             transition: transform 0.3s ease;
         }
 
@@ -61,6 +63,11 @@
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
         .fade-in {
@@ -94,9 +101,14 @@
             var embedContainer = document.getElementById('embed-container');
             var backgroundAudio = document.getElementById('background-audio');
             var video = document.getElementById('invitation-video');
+
+            // Apply fade-out class to image container
+            imageContainer.classList.add('fade-out');
             
-            // Fade out image container
-            imageContainer.style.display = 'none';
+            // After the fade-out animation completes, hide the image container
+            setTimeout(function() {
+                imageContainer.style.display = 'none';
+            }, 1000); // Duration matches the fade-out transition
             
             // Play the background audio
             backgroundAudio.play(); // Ensure this is called after a user interaction
