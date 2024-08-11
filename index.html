@@ -17,7 +17,7 @@
             background-position: center;
             overflow: hidden;
         }
-        #image-container, #video-container, #embed-container {
+        .container {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -59,18 +59,18 @@
 <body>
     <audio id="background-audio" src="https://marceloavf.github.io/wedding-hemilly-eliseu/background-audio.mp3" type="audio/mp3" loop autoplay></audio>
 
-    <div id="image-container" class="fade-in">
+    <div id="image-container" class="container fade-in">
         <img src="https://marceloavf.github.io/wedding-hemilly-eliseu/envelope-closed.png" alt="Click to start video" onclick="startVideo()">
     </div>
 
-    <div id="video-container">
+    <div id="video-container" class="container">
         <video id="invitation-video" controls autoplay>
             <source src="invitation-video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
 
-    <div id="embed-container">
+    <div id="embed-container" class="container">
         <iframe src="https://your-canva-embed-url.com"></iframe>
     </div>
 
@@ -84,8 +84,6 @@
 
             // Fade out image container
             imageContainer.classList.remove('fade-in');
-            imageContainer.style.opacity = '0';
-            imageContainer.style.visibility = 'hidden';
 
             // Fade in video container
             setTimeout(function() {
@@ -97,8 +95,6 @@
             video.onended = function() {
                 // Fade out video container
                 videoContainer.classList.remove('fade-in');
-                videoContainer.style.opacity = '0';
-                videoContainer.style.visibility = 'hidden';
 
                 // Fade in embed container
                 setTimeout(function() {
