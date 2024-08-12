@@ -21,7 +21,7 @@
             align-items: center;
             background-color: #dee1d4;
             position: relative;
-            -webkit-tap-highlight-color: transparent; /* Disable highlight on tap for mobile browsers */
+            -webkit-tap-highlight-color: transparent;
         }
         
         body.active-link {
@@ -48,7 +48,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            pointer-events: none; /* Disable interaction with the video */
+            pointer-events: none;
         }
         
         #video-container.fade-in {
@@ -128,7 +128,12 @@
             // Fade in the video and play it
             videoContainer.classList.add('fade-in');
             video.play();
-            
+
+            // Redirect to the URL after the video ends
+            video.onended = function() {
+                window.location.href = redirectLink.href;
+            };
+
             // Hide the image container after the fade-out completes
             imageContainer.addEventListener('transitionend', function() {
                 if (imageContainer.style.opacity == 0) {
@@ -136,7 +141,7 @@
                 }
             });
             
-            // Make the entire screen clickable exactly after 20 seconds
+            // Make the entire screen clickable exactly after 15 seconds
             setTimeout(function() {
                 redirectLink.classList.add('active');
                 document.body.classList.add('active-link');
