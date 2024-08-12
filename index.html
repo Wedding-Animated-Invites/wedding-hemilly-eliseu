@@ -16,6 +16,7 @@
             align-items: center;
             background-color: #dee1d4;
             position: relative;
+            -webkit-tap-highlight-color: transparent; /* Disable highlight on tap for mobile browsers */
         }
 
         #video-container {
@@ -44,20 +45,23 @@
         }
 
         #image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: relative;
             padding: 20px;
             z-index: 1;
             opacity: 1;
             visibility: visible;
             transition: opacity 1s ease, visibility 0s linear 1s;
+            height: auto;
+            max-height: 100%;
         }
 
         #image-container img {
             cursor: pointer;
             max-width: 100%;
-            max-height: 100%;
             height: auto;
-            width: auto;
             transition: transform 0.3s ease;
         }
 
@@ -74,8 +78,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 2;
+            z-index: 3;
             background: transparent;
+        }
+
+        #redirect-link.active {
+            display: block;
         }
     </style>
 </head>
@@ -115,10 +123,10 @@
                 }
             });
 
-            // Make the entire screen clickable after 20 seconds
+            // Make the entire screen clickable exactly after 20 seconds
             setTimeout(function() {
-                redirectLink.style.display = 'block';
-            }, 20000);
+                redirectLink.classList.add('active');
+            }, 17000);
 
             // Play the background audio
             document.getElementById('background-audio').play();
