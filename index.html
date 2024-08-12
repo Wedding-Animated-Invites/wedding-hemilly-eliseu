@@ -15,6 +15,7 @@
             justify-content: center;
             align-items: center;
             background-color: #dee1d4;
+            position: relative;
         }
 
         #video-container {
@@ -31,6 +32,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            pointer-events: none; /* Disable interaction with the video */
         }
 
         #image-container {
@@ -57,27 +59,15 @@
             transition: opacity 1s ease, visibility 0s linear 1s;
         }
 
-        #embed-container {
+        #redirect-link {
+            display: none;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: none;
             z-index: 2;
-        }
-
-        #embed-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .fade-in {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 1s ease, visibility 0s;
+            background: transparent;
         }
     </style>
 </head>
@@ -94,19 +84,19 @@
         <img src="https://wedding-animated-invites.github.io/wedding-hemilly-eliseu/envelope-closed.png" alt="Click to start video" onclick="startVideo()">
     </div>
     
-    <div id="embed-container">
-        <iframe src="https://your-canva-embed-url.com"></iframe>
-    </div>
+    <a id="redirect-link" href="https://your-redirect-url.com"></a>
     
     <script>
         function startVideo() {
             var imageContainer = document.getElementById('image-container');
-            var embedContainer = document.getElementById('embed-container');
-            var backgroundAudio = document.getElementById('background-audio');
             var video = document.getElementById('invitation-video');
+            var redirectLink = document.getElementById('redirect-link');
 
-            // Apply fade-out class to image container
+            // Apply fade-out effect to image container
             imageContainer.classList.add('fade-out');
+
+            // Play the video
+            video.play();
 
             // Hide the image container after the fade-out completes
             imageContainer.addEventListener('transitionend', function() {
@@ -115,13 +105,13 @@
                 }
             });
 
-            // Play the background audio
-            backgroundAudio.play();
+            // Make the entire screen clickable after 20 seconds
+            setTimeout(function() {
+                redirectLink.style.display = 'block';
+            }, 20000);
 
-            // Handle end of video
-            video.onended = function() {
-                embedContainer.classList.add('fade-in');
-            };
+            // Play the background audio
+            document.getElementById('background-audio').play();
         }
     </script>
 </body>
